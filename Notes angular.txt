@@ -1,0 +1,58 @@
+=======================================================================
+chapter 2
+
+Запустить проект 
+ng serve
+
+В Angular так же как и в Spring мы оперируем данные и перед тем как что-то делать нужно описать data model.
+Например:
+//src/app/todoItme.ts:
+
+export class TodoItem {
+    constructor(public task: string, public complete: boolean = false) {
+        //no statements required
+    }
+}
+export, class, constructor - стандартные ключевые слова для JavaScript. 
+
+export - Означает что мы данный модуль можем использовать в других местах приложения.
+JavaScript модули используются для управления зависимостями возник. между файлами в проекте. 
+constructor - это собственно конструктор. 
+    task - строка,
+    complete - булево поле, с дефолтным значением фальш:))
+Конструктор выше - сокращенный вариант конструктора, он присвоит приходящие значения public переменным класса todoItme,
+    кт будут названы так же. Если бы не сокращенный вариант - нужно было бы опр. переменные, в конструкторе присваивать
+    приходящие значения к этим переменным, т.е. как в java.
+
+
+TyreScript не исполняется, он компилируется в чистый JavaScript.
+.ts - Расширение TyreScript.
+
+
+//src/app/todoList.ts
+import { TodoItem } from "./todoItem"; //--так мы импортируем данные о TodoItem
+
+export class TodoList {
+    constructor(public user: string, private todoItems: TodoItem[] = []) { //-- внутри будет коллекция с TodoItem, Дефолтное значение - пустая коллекция.
+        //no statements required                                             //-- интересно, что бывает и private переменные внтури класса.               
+    }
+    get items(): readonly TodoItem[] { //-- items - свойство класса, кт возвращает readonly todoItems. 
+        return this.todoItems;
+    }
+    addItem(task: string) {
+        this.todoItems.push(new TodoItem(task));
+    }
+}
+
+Итак, мы создали dataModel и чтобы отобразить эти данные пользователю нам нужен template. 
+template - фрагмент HTML кт содержит expressions/выражения, кт будут обработаны Angular и кт вставляют результаты 
+    в содержимое отправляемое в браузер.
+В папке проекта src/app есть app.component.html:
+<h3>
+ {{ username }}'s To Do List
+ <h6>{{ itemCount }} Items</h6>
+</h3>
+Это template, expressions в {{expression}}. Точнее expression кт находится в двойных скобках - это Data Binding.
+Data Binding - отношение между template и data.
+Важная особенность Angular - все ошибки показываются сразу при компиляции и шаблоны являются частью компиляции.
+
